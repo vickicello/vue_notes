@@ -4,7 +4,11 @@
     <b-container class="bv-example-row"> <!-- container auto-centers and gives some padding -->
       <b-row>
         <b-col sm="6" offset="3"> <!-- on a small screen, take up half the page -->
-          <QuestionBox />
+          <QuestionBox
+            v-if="questions.length"
+            :currentQuestion="questions[index]"
+            :next="next"
+          /> <!-- use the v-if directive to make sure question data has been loaded -->
         </b-col>
       </b-row>
     </b-container>
@@ -21,12 +25,26 @@ export default {
     Header,
     QuestionBox
   },
+  data() {
+    return {
+      questions: [],
+      index: 0
+    }
+  },
+  methods: {
+    next() {
+      this.index++
+    }
+  },
   mounted: function() {
     fetch('https://opentdb.com/api.php?amount=10&category=27&type=multiple', {
       method: 'get'
     })
-      .then(response => {
-        console.log(response.json())
+      .then((response) => {
+        return response.json()
+      })
+      .then((jsonData) => {
+        this.questions = jsonData.results
       })
   }
   // we need to add components here to be able to access them in the template section above
