@@ -1,18 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <Header />
+    <b-container class="bv-example-row"> <!-- container auto-centers and gives some padding -->
+      <b-row>
+        <b-col sm="6" offset="3"> <!-- on a small screen, take up half the page -->
+          <QuestionBox />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import QuestionBox from './components/QuestionBox.vue'
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld
+    Header,
+    QuestionBox
   }
+  // we need to add components here to be able to access them in the template section above
 }
 </script>
 
