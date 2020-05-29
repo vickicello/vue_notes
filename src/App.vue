@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <Header />
-    <QuestionBox />
+    <b-container class="bv-example-row"> <!-- container auto-centers and gives some padding -->
+      <b-row>
+        <b-col sm="6" offset="3"> <!-- on a small screen, take up half the page -->
+          <QuestionBox />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
