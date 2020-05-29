@@ -20,8 +20,19 @@ export default {
   components: {
     Header,
     QuestionBox
+  },
+  mounted: function() {
+    fetch('https://opentdb.com/api.php?amount=10&category=27&type=multiple', {
+      method: 'get'
+    })
+      .then(response => {
+        console.log(response.json())
+      })
   }
   // we need to add components here to be able to access them in the template section above
+  // fetch api = web standard; doesn't need a library to be imported
+  // mounted is a lifecycle method that Vue will call automatically when a component is mounted,
+  // and then won't get called again
 }
 </script>
 
