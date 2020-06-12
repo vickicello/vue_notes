@@ -48,9 +48,12 @@ export default {
     // anytime we want to access a var in a prop or methods, we need to prepend with this.____
   },
   watch: {
-    currentQuestion() {
-      this.selectedIndex = null
-      this.shuffleAnswers()
+    currentQuestion: {
+      immediate: true,
+      handler() {
+        this.selectedIndex = null
+        this.shuffleAnswers()
+      }
     }
   },
   methods: {
@@ -62,6 +65,9 @@ export default {
       this.shuffledAnswers = _.shuffle(answers)
     }
   }
+  //mounted() {
+    //this.shuffleAnswers() // shuffle answers on first component mount; or we can add handler like on line 53
+  //}
 }
 
 </script>
