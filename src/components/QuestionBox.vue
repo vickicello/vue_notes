@@ -11,7 +11,7 @@
           v-for="(answer, index) in answers"
           :key="index"
           @click.prevent="selectedAnswer(index)"
-          :class="[selectedIndex === index ? 'selected' : '']"
+          :class="answerClass(index)"
         > <!--all v-for loops need key attributes to be able to access element in DOM -->
           {{ answer }}
         </b-list-group-item>
@@ -20,6 +20,7 @@
       <b-button 
         variant="primary"
         @click="submitAnswer"
+        :disabled="selectedIndex === null || answered"
       >
         Submit
       </b-button>
@@ -37,12 +38,15 @@ export default {
   props: {
     currentQuestion: Object,
     next: Function,
-    increment: Function
+    increment: Function,
+
   },
   data: function() {
     return {
       selectedIndex: null,
-      shuffledAnswers: []
+      correctIndex: null,
+      shuffledAnswers: [],
+      answered: false
     }
   },
   computed: {
@@ -58,6 +62,7 @@ export default {
       immediate: true,
       handler() {
         this.selectedIndex = null
+        his.answered = false
         this.shuffleAnswers()
       }
     }
@@ -69,6 +74,7 @@ export default {
     shuffleAnswers() {
       let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
       this.shuffledAnswers = _.shuffle(answers)
+      this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
     },
     submitAnswer() {
       let isCorrect = false
@@ -76,7 +82,21 @@ export default {
         isCorrect = true
       }
 
+      this.answered = true
+
       this.increment(isCorrect)
+    },
+    answerClass(index) {
+      let answerClass = ''
+      if (!this.answered && this.selectedIndex === index) {
+        answerClass = 'selected'
+      } else if (this.answered && this.correctIndex === index) {
+          answerClass = 'correct'
+      } else if (this.answered && this.selectedIndex === index && this.correctIndex !== index) {
+          answerClass = 'incorrect'
+      }
+
+      return answerClass
     }
   }
   //mounted() {
